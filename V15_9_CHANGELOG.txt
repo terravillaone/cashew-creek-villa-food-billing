@@ -1,0 +1,11 @@
+CASHEW CREEK VILLA — V15.9
+
+FIX
+- Fixed Customer Bills list showing Pending when View Bill already showed Paid.
+- Customer bill status in the list now treats orders.status = 'paid' OR an existing payment record as Paid.
+- Mark Paid button is hidden when either source confirms the bill is paid.
+- Service worker cache bumped to V15.9 so GitHub Pages clients receive the frontend fix.
+
+SUPABASE
+- v15_9_customer_paid_sync.sql synchronizes all existing payment-backed customer bills to orders.status = 'paid'.
+- The existing V15.6 mark_customer_bill_paid RPC already updates orders.status to paid.

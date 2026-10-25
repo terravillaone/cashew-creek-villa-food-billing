@@ -1,0 +1,15 @@
+Cashew Creek Villa V15.2 - Price Model Fix
+
+There are exactly TWO prices in the system:
+1. Customer Price (menu_items.selling_price) - shown on Order, customer bills and customer-facing printouts.
+2. Supplier Cost (supplier_item_costs.supplier_rate) - owner-only purchase cost, used only for supplier bills.
+
+The ordering screen never reads or displays supplier cost.
+The customer bill uses order_items.selling_price.
+The supplier bill uses supplier_bill_items.supplier_rate.
+
+Important:
+- Repair / Load Master Menu updates CUSTOMER PRICES only.
+- It does NOT overwrite or invent supplier costs.
+- Maintain supplier costs explicitly in Owner -> Menu.
+- The included v15_master_menu_price_correction.sql updates only customer prices and does not modify historical order_items.

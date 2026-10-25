@@ -1,0 +1,9 @@
+V15.6
+- Customer bills now start as Pending.
+- Owner can Mark Paid from Customer Bills and Customer Bill details.
+- Customer payment method: Cash or UPI.
+- Optional customer payment reference.
+- Customer payment is recorded only when Mark Paid is confirmed.
+- Existing customer bills with payments remain Paid.
+- Dashboard Today Sales counts paid customer bills.
+- Supplier Payables workflow retained.

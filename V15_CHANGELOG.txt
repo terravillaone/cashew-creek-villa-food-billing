@@ -1,0 +1,31 @@
+V15 CHANGELOG
+
+1. Replaced login/header logo with supplied Cashew Creek artwork.
+2. Fixed Generate Bill button state detection.
+3. Fixed Repair / Load Master Menu resetting state.category instead of state.categoryId.
+4. Made existing Marathi menu names editable.
+5. Added India-timezone helpers for dashboard and bill timestamps.
+6. Added customer bill search.
+7. Increased customer bill history fetch limit to 500.
+8. Supplier bills now reference customer bill number/guest rather than order UUID in the UI.
+9. Replaced browser-side supplier bill creation with create_supplier_bills_for_order RPC.
+10. Replaced browser-side customer order cascade deletion with delete_customer_order_cascade RPC.
+11. Replaced insecure browser-side Auth signUp user creation with create-villa-user Edge Function.
+12. Added V15 security/RLS migration and username normalization support.
+13. Updated PWA manifest and service worker to V15 and cache the new logo assets.
+
+- Order category labels updated: Cashew Creek Thali → Thali; Cashew Creek Sweet → Desserts; Cashew Creek Special → Biryani by Kilo. Database category IDs and owner menu names remain unchanged for compatibility.
+
+V15.1 category database rename:
+- Cashew Creek Thali -> Thali
+- Cashew Creek Sweet -> Desserts
+- Cashew Creek Special -> Biryani by Kilo
+- Added v15_category_rename_migration.sql to update public.menu_categories safely without changing category IDs.
+
+V15.5
+- Added supplier payable workflow: Pending -> Paid.
+- Added owner-only Mark Paid action with Cash/UPI and optional payment reference.
+- Added paid_at and paid_by tracking.
+- Added Pending/Paid payable totals.
+- Supplier bill detail/print now shows payment details when paid.
+- Supplier bill creation no longer resets paid bills to Pending.

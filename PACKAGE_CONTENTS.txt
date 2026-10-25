@@ -1,0 +1,8 @@
+Cashew Creek Villa V15.2 complete package
+- index.html
+- assets/ (Cashew Creek logo and hero)
+- fonts/
+- manifest.webmanifest
+- sw.js
+- Supabase migrations and fixes
+- V15_2_PRICE_MODEL_FIX.txt

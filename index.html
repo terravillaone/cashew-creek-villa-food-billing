@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d4f4a"><meta name="description" content="Cashew Creek Villa food billing and supplier management">
+<link rel="manifest" href="manifest.webmanifest"><title>Cashew Creek Villa — Food Billing v15.2</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+@font-face{font-family:NotoDeva;src:url('fonts/NotoSansDevanagari-Regular.ttf')}@font-face{font-family:NotoDeva;src:url('fonts/NotoSansDevanagari-Bold.ttf');font-weight:700}
+:root{--teal:#0d4f4a;--teal2:#126b64;--cream:#fbf5e8;--gold:#c79a3b;--ink:#20302d;--muted:#6d7975;--white:#fff;--danger:#b5423b;--line:#e7dfcf;--shadow:0 12px 35px #143b3520}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f6f0e2,#fff);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.mr{font-family:NotoDeva,serif}.hidden{display:none!important}
+button,input,select{font:inherit}button{cursor:pointer;border:0}.app{min-height:100vh}.top{background:var(--teal);color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 4px 18px #0002}.topin{max-width:1200px;margin:auto;padding:12px 16px;display:flex;align-items:center;gap:14px}.logo{width:94px;height:58px;border-radius:10px;display:block;object-fit:contain;object-position:center;box-shadow:none;flex:0 0 auto}.loginlogo img{width:min(260px,80vw);height:auto;max-height:260px;object-fit:contain}.loginlogo{display:flex;justify-content:center;align-items:center;margin-bottom:6px}.brand b{font-family:Georgia,serif;font-size:20px;display:block}.top .brand{min-width:0}.brand small{opacity:.85}.spacer{flex:1}.pill{background:#ffffff18;padding:8px 12px;border-radius:999px;font-size:13px}.btn{padding:10px 14px;border-radius:12px;background:var(--teal2);color:#fff;font-weight:700}.btn.gold{background:var(--gold);color:#17332e}.btn.light{background:#fff;color:var(--teal);border:1px solid var(--line)}.btn.danger{background:var(--danger)}.shell{max-width:1200px;margin:auto;padding:18px}.hero{border-radius:24px;background:linear-gradient(120deg,#063e39aa,#063e3955),url('assets/hero.jpg') center/cover;min-height:235px;padding:28px;color:#fff;display:flex;align-items:end;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:'';position:absolute;inset:auto 0 0;height:42%;background:linear-gradient(transparent,#052f2b99);pointer-events:none}.hero>div{position:relative;z-index:1;text-shadow:0 2px 8px #0008}.hero h1{font-family:Georgia,serif;font-size:34px;margin:0 0 5px}.hero p{margin:0;opacity:.9}.nav{display:flex;gap:9px;overflow-x:auto;padding:14px 0;scrollbar-width:thin}.nav button{white-space:nowrap;flex:0 0 auto;cursor:pointer;user-select:none;touch-action:manipulation;background:#fff;border:1px solid var(--line);padding:10px 14px;border-radius:999px;color:var(--teal);font-weight:700}.nav button.active{background:var(--teal);color:#fff}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 5px 18px #163a3310;overflow:hidden}.cardbody{padding:14px}.itemtitle{font-weight:900;font-size:17px;color:#19342f}.itemen{font-weight:900}.itemmr{font-family:NotoDeva,serif;color:#5d6a66;margin-top:4px;font-size:15px}.price{color:var(--teal);font-weight:900;font-size:18px;margin-top:8px}.row{display:flex;align-items:center;gap:8px}.qty{display:flex;align-items:center;gap:9px;margin-top:10px}.qbtn{width:34px;height:34px;border-radius:10px;background:#edf5f3;color:var(--teal);font-size:20px;font-weight:900}.qty span{min-width:24px;text-align:center;font-weight:900}.menuitem{display:flex;align-items:center;gap:14px}.menuitem .names{flex:1;min-width:0}.menuitem .names .itemen{font-size:17px}.menuitem .names .itemmr{font-size:15px}.bill-actions{display:flex;gap:7px;flex-wrap:wrap}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.toolbar .searchbar{flex:1;min-width:260px;margin:0}.smallbtn{padding:7px 10px;border-radius:9px;background:#edf5f3;color:var(--teal);font-weight:800}.printbtn{background:#f6efe0;color:#7b5a18}.bottombar{position:sticky;bottom:10px;margin-top:18px;background:#0d4f4af5;color:#fff;border-radius:18px;padding:12px 14px;display:flex;gap:12px;align-items:center;box-shadow:0 12px 30px #0003}.bottombar .total{font-size:19px;font-weight:900}.modal{position:fixed;inset:0;background:#0b292688;z-index:50;display:grid;place-items:center;padding:16px}.modalbox{background:#fff;border-radius:22px;max-width:760px;width:100%;max-height:90vh;overflow:auto;padding:22px;box-shadow:0 30px 80px #0004}.modalhead{display:flex;align-items:center;gap:10px;margin-bottom:16px}.modalhead h2{margin:0}.close{margin-left:auto;background:#f0eee8;width:36px;height:36px;border-radius:50%}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{display:block;font-size:12px;font-weight:800;color:#66716d;margin-bottom:5px}.field input,.field select{width:100%;padding:11px 12px;border:1px solid #d8d3c7;border-radius:11px;background:#fff}.full{grid-column:1/-1}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:14px;vertical-align:middle}.table input,.table select{min-width:110px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px}.kpi b{display:block;font-size:24px;color:var(--teal)}.empty{padding:28px;text-align:center;color:var(--muted)}.login{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 20% 20%,#f3d99d,#f7f3e9 45%,#dce9e4)}.loginbox{width:min(430px,100%);background:#fff;border-radius:26px;padding:30px;box-shadow:var(--shadow)}.loginlogo{font-size:48px;text-align:center}.error{color:var(--danger);font-size:13px;margin-top:8px}.loading{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#f6f0e2,#fff)}.loadingbox{background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:var(--shadow);text-align:center}.spinner{width:28px;height:28px;border:3px solid #d8e7e3;border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}@keyframes spin{to{transform:rotate(360deg)}}.toast{position:fixed;right:16px;bottom:18px;background:#183b36;color:#fff;padding:12px 15px;border-radius:12px;z-index:100;box-shadow:var(--shadow)}.admin-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.admin-note{font-size:12px;color:#6d7975;line-height:1.5}.searchbar{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px 10px;box-shadow:0 4px 14px #163a3308;margin:0 0 12px}.searchbar input{flex:1;min-width:0;border:0;outline:0;background:transparent;padding:7px 5px;color:var(--ink)}.searchicon{font-size:18px;color:var(--muted)}.searchclear{background:#f0eee8;color:var(--teal);border-radius:9px;padding:6px 9px;font-weight:800}.subnav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.subnav button{background:#fff;border:1px solid var(--line);padding:9px 14px;border-radius:999px;color:var(--teal);font-weight:800}.subnav button.active{background:var(--teal);color:#fff}.filter-empty{display:none;padding:20px;text-align:center;color:var(--muted);grid-column:1/-1}.fileinput{display:none}.upload-progress{margin-top:10px;font-size:13px;color:#0d4f4a;font-weight:800}
+@media(max-width:700px){.logo{width:76px;height:52px}.brand small{display:none}.hero{min-height:190px;padding:20px}.hero h1{font-size:27px}.brand b{font-size:16px}.pill{display:none}.kpis{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.grid{grid-template-columns:1fr;gap:10px}.cardbody{padding:11px}.itemtitle{font-size:15px}.price{font-size:16px}.btn{padding:9px 11px}.topin{padding:9px 12px}.table{font-size:13px}.table th,.table td{padding:8px 6px}.bill-actions{flex-direction:column}.bill-actions .smallbtn{width:100%}}
+</style></head>
+<body>
+<div id="root"></div>
+<div id="toast" class="toast hidden"></div>
+<script>
+const SUPABASE_URL='https://czvdlzfzjedtkgroifsu.supabase.co';
+const SUPABASE_KEY='sb_publishable_O-6koxNmiEUZAAMfSFhpJg_ZI7p8JP-';
+const {createClient}=supabase; const db=createClient(SUPABASE_URL,SUPABASE_KEY);
+const state={session:null,profile:null,categoryId:null,menu:[],allMenu:[],categories:[],suppliers:[],cart:{},orders:[],tab:'order',ownerSection:'menu',orderSearch:'',ownerMenuSearch:'',savingBill:false};
+function paymentLabel(v){const x=String(v||'').toLowerCase();if(x==='upi')return 'UPI';if(x==='cash')return 'Cash';if(x==='credit_card')return 'Credit Card';if(x==='debit_card')return 'Debit Card';return v||'Not recorded'}
+const seed=[
+['Breakfast','Sabudana Khichdi','साबुदाणा खिचडी',100,70,'🥣'],['Breakfast','Ghavane Chatani','घावणे चटणी',100,70,'🥞'],['Breakfast','Single Omlet','सिंगल ऑम्लेट',50,30,'🍳'],['Breakfast','Poha','पोहे',100,45,'🍲'],['Breakfast','Upma','उपमा',100,45,'🥣'],['Breakfast','Poori Bhaji','पुरी भाजी',150,70,'🥘'],['Breakfast','Idli Sambar Chutney','इडली सांबार चटणी',150,70,'🍛'],['Breakfast','Tea','चहा',35,20,'☕'],['Breakfast','Coffee','कॉफी',45,25,'☕'],['Breakfast','Milk','दूध',35,20,'🥛'],['Breakfast','Omelet Pav','ऑम्लेट पाव',100,40,'🥪'],['Breakfast','Burji Pav','भुर्जी पाव',100,50,'🥪'],['Breakfast','Misal Pav','मिसळ पाव',120,70,'🍛'],['Breakfast','Kanda Bhaji','कांदा भजी',100,50,'🧅'],['Breakfast','Batata Bhaji','बटाटा भाजी',100,50,'🥔'],['Breakfast','Mix Bhaji','मिक्स भाजी',100,50,'🥘'],['Breakfast','Pav Bhaji','पाव भाजी',150,80,'🍛'],['Breakfast','Extra Pav','अतिरिक्त पाव',25,25,'🍞'],
+['Thali','Bombil Thali','बोंबील थाळी',500,300,'🐟'],['Thali','Prawns Thali','कोळंबी थाळी',550,400,'🍤'],['Thali','Bangda Thali','बांगडा थाळी',450,300,'🐟'],['Thali','Surmai Thali','सुरमई थाळी',600,450,'🐟'],['Thali','Pomfret Thali','पापलेट थाळी',600,450,'🐟'],['Thali','Chicken Thali','चिकन थाळी',500,320,'🍗'],['Thali','Mutton Thali','मटण थाळी',700,500,'🍖'],['Thali','Veg Thali','व्हेज थाळी',400,280,'🥗'],['Thali','Dal Khichdi','डाळ खिचडी',250,150,'🍲'],
+['Bread','Chapati','चपाती',25,15,'🫓'],['Bread','Tandul Bhakari','तांदूळ भाकरी',50,30,'🫓'],['Desserts','Modak','मोदक',50,30,'🍡'],['Desserts','Puranpoli','पुरणपोळी',70,40,'🥮'],
+['Biryani by Kilo','Veg Biryani','व्हेज बिर्याणी',1300,1000,'🍚'],['Biryani by Kilo','Chicken Biryani','चिकन बिर्याणी',1600,1200,'🍗'],['Biryani by Kilo','Mutton Biryani','मटण बिर्याणी',2600,2000,'🍖'],['Biryani by Kilo','Egg Biryani','अंडा बिर्याणी',850,600,'🍚'],['Biryani by Kilo','Prawns Biryani','कोळंबी बिर्याणी',1800,1400,'🍤'],['Biryani by Kilo','Veg Pulao','व्हेज पुलाव',1200,900,'🍚'],['Alibaug Special','Popti Veg','पोपटी व्हेज',2200,1800,'🥬'],['Alibaug Special','Popti Nonveg','पोपटी नॉनव्हेज',2500,2000,'🍗']];
+function money(n){return '₹'+Number(n||0).toLocaleString('en-IN')}
+function indiaDayKey(value){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value))}
+function indiaDateTime(value){return new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'}).format(new Date(value))} function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))} function toast(s){const x=document.getElementById('toast');x.textContent=s;x.classList.remove('hidden');setTimeout(()=>x.classList.add('hidden'),2200)}
+async function getProfile(user){
+  const {data,error}=await db.from('profiles').select('id,full_name,username,role').eq('id',user.id).maybeSingle();
+  if(error) throw error;
+  if(!data) throw new Error('Your account is authenticated, but no profile was found in the profiles table.');
+  return data;
+}
+function login(message=''){
+  root.innerHTML=`<div class="login"><div class="loginbox"><div class="loginlogo"><img src="assets/cashew-creek-logo.png" alt="Cashew Creek Villa logo"></div><h1 style="text-align:center;font-family:Georgia">Cashew Creek Villa</h1><p style="text-align:center;color:#6d7975">Alibaug . Food Billing</p><div class="field"><label>User Name</label><input id="username" type="text" autocomplete="username" autofocus placeholder="Enter your user name"></div><div class="field" style="margin-top:12px"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div><button id="loginBtn" class="btn gold" style="width:100%;margin-top:16px" onclick="doLogin()">Login</button><div id="loginerr" class="error">${esc(message)}</div></div></div>`;
+  document.getElementById('password')?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+}
+async function doLogin(){
+  const userEl=document.getElementById('username'), passEl=document.getElementById('password'), btn=document.getElementById('loginBtn'), err=document.getElementById('loginerr');
+  err.textContent='';
+  const username=userEl.value.trim(), password=passEl.value;
+  if(!username||!password){err.textContent='Please enter your user name and password.';return;}
+  btn.disabled=true;btn.textContent='Signing in…';
+  let email=username;
+  if(!username.includes('@')){
+    const r=await db.rpc('resolve_login_email',{p_username:username});
+    if(r.error||!r.data){err.textContent='User name not found. Ask the owner to create this user.';btn.disabled=false;btn.textContent='Login';return;}
+    email=r.data;
+  }
+  const {data,error}=await db.auth.signInWithPassword({email,password});
+  if(error){err.textContent=error.message;btn.disabled=false;btn.textContent='Login';return;}
+  state.session=data.session;
+  try{state.profile=await getProfile(data.session.user);await loadData();app();}
+  catch(e){await db.auth.signOut();err.textContent=e.message||'Could not load your account.';btn.disabled=false;btn.textContent='Login';}
+}
+function categoryName(id){const c=state.categories.find(x=>x.id===id);return c?.name_en||'Other'}
+async function loadData(){
+  const base=[
+    db.from('menu_categories').select('id,name_en,name_mr,sort_order,active').eq('active',true).order('sort_order'),
+    db.from('menu_items').select('id,category_id,name_en,name_mr,selling_price,available,sort_order,created_at').eq('available',true).order('sort_order')
+  ];
+  if(state.profile?.role==='owner') base.push(db.from('suppliers').select('id,name,phone,notes,active').eq('active',true).order('name'));
+  const res=await Promise.all(base);
+  const [c,m,s]=res;
+  if(c.error)throw c.error;if(m.error)throw m.error;
+  state.categories=c.data||[];
+  const validCats=new Set(state.categories.map(x=>x.id));
+  state.menu=(m.data||[]).filter(x=>validCats.has(x.category_id)).map(x=>({...x,name:x.name_en,category_name:categoryName(x.category_id)}));
+  state.suppliers=(s?.data)||[];
+  if(s?.error)throw s.error;
+  if(!state.menu.length && state.profile?.role==='owner')showSetupHint();
+}
+function showSetupHint(){toast('Menu is empty. Open Owner → Repair / Load Master Menu.');}
+function normalizeSearch(v){return String(v??'').trim().replace(/\s+/g,' ').toLowerCase()}
+function filterOrderMenu(value){state.orderSearch=value;const q=normalizeSearch(value);let shown=0;document.querySelectorAll('[data-order-item]').forEach(card=>{const hit=!q||normalizeSearch(card.dataset.search).includes(q);card.style.display=hit?'':'none';if(hit)shown++});const empty=document.getElementById('orderSearchEmpty');if(empty)empty.style.display=shown?'none':'block'}
+function clearOrderSearch(){state.orderSearch='';const input=document.getElementById('orderSearch');if(input)input.value='';filterOrderMenu('');input?.focus()}
+function filterOwnerMenu(value){state.ownerMenuSearch=value;const q=normalizeSearch(value);let shown=0;document.querySelectorAll('[data-owner-menu-row]').forEach(row=>{const hit=!q||normalizeSearch(row.dataset.search).includes(q);row.style.display=hit?'':'none';if(hit)shown++});const empty=document.getElementById('ownerMenuSearchEmpty');if(empty)empty.style.display=shown?'none':'table-row'}
+function clearOwnerMenuSearch(){state.ownerMenuSearch='';const input=document.getElementById('ownerMenuSearch');if(input)input.value='';filterOwnerMenu('');input?.focus()}
+function setOwnerSection(section){if(state.profile?.role!=='owner')return;state.ownerSection=section==='user'?'user':'menu';renderAdmin()}
+function orderCategoryLabel(name){const labels={'Cashew Creek Thali':'Thali','Cashew Creek Sweet':'Desserts','Cashew Creek Special':'Biryani by Kilo'};return labels[name]||name}
+function selectCategory(categoryId){state.categoryId=categoryId;renderOrder();const el=document.querySelector(`[data-category-id="${CSS.escape(categoryId||'all')}"]`);el?.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}
+function app(){root.innerHTML=`<div class="app"><header class="top"><div class="topin"><img class="logo" src="assets/cashew-creek-logo.png" alt="Cashew Creek Villa logo"><div class="brand"><b>CASHEW CREEK VILLA</b><small>ALIBAUG • Good Food • Great Views</small></div><div class="spacer"></div><span class="pill">${esc(state.profile?.full_name||state.profile?.username||'User')}</span><button class="btn light" onclick="logout()">Logout</button></div></header><main class="shell"><section class="hero"><div><h1>Good Food • Great Views</h1><p>Food billing for your villa — mobile & desktop</p></div></section><div class="nav"><button class="${state.tab==='order'?'active':''}" onclick="setTab('order')">🍽️ Order</button><button class="${state.tab==='bills'?'active':''}" onclick="setTab('bills')">🧾 Bills</button><button class="${state.tab==='dashboard'?'active':''}" onclick="setTab('dashboard')">📊 Dashboard</button>${state.profile?.role==='owner'?`<button class="${state.tab==='suppliers'?'active':''}" onclick="setTab('suppliers')">🏪 Suppliers</button>`:''}${state.profile?.role==='owner'?`<button class="${state.tab==='admin'?'active':''}" onclick="setTab('admin')">⚙️ Owner</button>`:''}</div><div id="content"></div></main></div>`;renderTab()}
+function setTab(t){state.tab=t;app()}
+function renderTab(){if(state.tab==='order')renderOrder();else if(state.tab==='bills')renderBills();else if(state.tab==='dashboard')renderDashboard();else if(state.tab==='suppliers')renderSuppliers();else renderAdmin()}
+function renderOrder(){
+  const cats=[{id:null,name:'All'},...state.categories.slice().sort((a,b)=>(a.sort_order||0)-(b.sort_order||0)).map(c=>({id:c.id,name:orderCategoryLabel(c.name_en)}))];
+  if(state.categoryId && !state.categories.some(c=>c.id===state.categoryId)) state.categoryId=null;
+  const items=(state.menu||[]).filter(x=>!state.categoryId||x.category_id===state.categoryId).filter(x=>x.available!==false);
+  const total=Object.entries(state.cart).reduce((a,[id,q])=>{const i=state.menu.find(x=>String(x.id)===id);return a+(i?Number(i.selling_price)*q:0)},0);
+  const categoryNav=cats.map(c=>`<button type="button" data-category-id="${esc(c.id||'all')}" class="${state.categoryId===c.id?'active':''}" onclick="selectCategory('${c.id||''}')">${esc(c.name)}</button>`).join('');
+  const cards=items.map(i=>{const q=state.cart[i.id]||0;const displayCategory=orderCategoryLabel(i.category_name||'');const search=normalizeSearch(`${i.name_en||i.name||''} ${i.name_mr||''} ${displayCategory}`);return `<div class="card" data-order-item data-search="${esc(search)}"><div class="cardbody menuitem"><div class="names"><div class="itemtitle itemen">${esc(i.name_en||i.name||'')}</div><div class="itemmr mr">${esc(i.name_mr||'')}</div><div class="price">${money(i.selling_price)}</div></div><div class="qty" style="margin-top:0"><button type="button" class="qbtn" onclick="changeQty('${i.id}',-1)" aria-label="Decrease quantity">−</button><span>${q}</span><button type="button" class="qbtn" onclick="changeQty('${i.id}',1)" aria-label="Increase quantity">+</button></div></div></div>`}).join('');
+  content.innerHTML=`<div class="searchbar"><span class="searchicon">🔎</span><input id="orderSearch" type="search" value="${esc(state.orderSearch)}" placeholder="Search food item in English or Marathi…" oninput="filterOrderMenu(this.value)" autocomplete="off"><button type="button" class="searchclear" onclick="clearOrderSearch()">Clear</button></div><div class="nav category-nav">${categoryNav}</div><div class="grid">${cards||'<div class="empty">No items available in this category.</div>'}<div id="orderSearchEmpty" class="filter-empty">No matching food item found.</div></div><div class="bottombar"><div class="total">${money(total)}</div><div class="spacer">${Object.values(state.cart).reduce((a,b)=>a+b,0)} items</div><button type="button" class="btn gold" onclick="openBill()">View Bill</button></div>`;
+  if(state.orderSearch)filterOrderMenu(state.orderSearch);
+}
+function changeQty(id,d){state.cart[id]=Math.max(0,(state.cart[id]||0)+d);if(!state.cart[id])delete state.cart[id];renderOrder()}
+function cartRows(){return Object.entries(state.cart).map(([id,q])=>{const i=state.menu.find(x=>String(x.id)===id);return i?{i,q,amt:q*Number(i.selling_price)}:null}).filter(Boolean)}
+function openBill(){const rows=cartRows();if(!rows.length)return toast('Add at least one item.');const total=rows.reduce((a,r)=>a+r.amt,0);modal(`<div class="modalhead"><h2>Customer Bill</h2><button class="close" onclick="closeModal()">×</button></div><div class="field"><label>Guest Name</label><input id="guestname" type="text" placeholder="Enter guest name" autocomplete="off"></div><table class="table" style="margin-top:15px"><tr><th>Item</th><th>Qty</th><th>Amount</th></tr>${rows.map(r=>`<tr><td>${esc(r.i.name_en||r.i.name||'')}<br><span class="mr">${esc(r.i.name_mr||'')}</span></td><td>${r.q}</td><td>${money(r.amt)}</td></tr>`).join('')}</table><div style="text-align:right;font-size:21px;font-weight:900;margin:15px 0">Total: ${money(total)}</div><div style="margin-top:12px;padding:10px 12px;border-radius:12px;background:#f7f3e8;color:#5d665f;font-size:13px">Payment can be recorded after the bill is generated using <b>Mark as Paid</b>.</div><button id="generateBillBtn" class="btn gold" style="width:100%;margin-top:14px" onclick="saveBill()">Generate Bill</button>`)}
+async function saveBill(){
+  if(state.savingBill)return;
+  const rows=cartRows();
+  if(!rows.length)return toast('Add at least one item.');
+  const guestName=document.getElementById('guestname')?.value.trim();
+  if(!guestName)return toast('Please enter the guest name.');
+  const total=rows.reduce((a,r)=>a+r.amt,0);
+  const btn=document.getElementById('generateBillBtn');
+  state.savingBill=true;if(btn){btn.disabled=true;btn.textContent='Saving Bill…'}
+  let createdOrderId=null;
+  try{
+    const {data:ord,error}=await db.from('orders').insert({guest_name:guestName,created_by:state.session.user.id,status:'pending',completed_at:new Date().toISOString()}).select('id,order_number,guest_name,created_at').single();
+    if(error)throw new Error('Order could not be created: '+error.message);
+    createdOrderId=ord.id;
+    const items=rows.map(r=>({order_id:ord.id,menu_item_id:r.i.id,item_name_en:r.i.name_en||r.i.name||'',item_name_mr:r.i.name_mr||'',quantity:r.q,selling_price:Number(r.i.selling_price)}));
+    const ir=await db.from('order_items').insert(items);
+    if(ir.error)throw new Error('Order items could not be saved: '+ir.error.message);
+    const supplierResult=await createSupplierBills(ord.id,rows);
+    if(!supplierResult.ok)throw new Error('Supplier bill could not be created: '+supplierResult.message);
+    state.cart={};closeModal();state.tab='bills';app();toast(`Bill #${ord.order_number||''} generated successfully — Payment Pending`);
+  }catch(e){
+    try{await deleteOrderCascade(createdOrderId)}catch(_){ }
+    toast(e.message||'Bill could not be saved.');
+  }finally{state.savingBill=false}
+}
+async function createSupplierBills(orderId,rows){
+  if(!orderId||!rows?.length)return {ok:true};
+  const {data,error}=await db.rpc('create_supplier_bills_for_order',{p_order_id:orderId});
+  if(error){
+    console.error('create_supplier_bills_for_order failed',error);
+    return {ok:false,message:error.message||error.details||'Database supplier-bill RPC failed.'};
+  }
+  if(data && data.ok===false)return {ok:false,message:data.message||'Supplier bills could not be created.'};
+  return {ok:true};
+}
+async function deleteOrderCascade(orderId){
+  if(!orderId)return;
+  const {error}=await db.rpc('delete_customer_order_cascade',{p_order_id:orderId});
+  if(error)throw new Error(error.message);
+}
+function filterBills(value){const q=normalizeSearch(value);let shown=0;document.querySelectorAll('[data-bill-row]').forEach(row=>{const hit=!q||normalizeSearch(row.dataset.search).includes(q);row.style.display=hit?'':'none';if(hit)shown++});const empty=document.getElementById('billSearchEmpty');if(empty)empty.style.display=shown?'none':'table-row'}
+function clearBillSearch(){const input=document.getElementById('billSearch');if(input){input.value='';input.focus()}filterBills('')}
+async function renderBills(){
+  content.innerHTML='<div class="empty">Loading customer bills…</div>';
+  const {data,error}=await db.from('orders').select('id,order_number,guest_name,created_by,created_at,completed_at,status,order_items(quantity,selling_price),payments(payment_method,amount,paid_at)').order('created_at',{ascending:false}).limit(500);
+  if(error){content.innerHTML=`<div class="empty">${esc(error.message)}</div>`;return}
+  const rows=data||[];
+  const ids=[...new Set(rows.map(o=>o.created_by).filter(Boolean))];
+  let profiles={};
+  if(ids.length){const pr=await db.from('profiles').select('id,full_name,username').in('id',ids);if(!pr.error)(pr.data||[]).forEach(x=>profiles[x.id]=x)}
+  const canDelete=state.profile?.role==='owner';
+  content.innerHTML=`<div class="card"><div class="cardbody"><h2>Customer Bills</h2><div class="searchbar"><span class="searchicon">🔎</span><input id="billSearch" type="search" placeholder="Search bill number, guest name or generated by…" oninput="filterBills(this.value)" autocomplete="off"><button type="button" class="searchclear" onclick="clearBillSearch()">Clear</button></div><div id="billList" style="overflow:auto"><table class="table"><thead><tr><th>Bill</th><th>Guest</th><th>Generated By</th><th>Date</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead><tbody>${rows.map(o=>{const total=(o.order_items||[]).reduce((a,x)=>a+Number(x.quantity||0)*Number(x.selling_price||0),0);const u=profiles[o.created_by];const paid=String(o.status||'').toLowerCase()==='paid'||(Array.isArray(o.payments)&&o.payments.length>0);const billStatus=paid?'Paid':(String(o.status||'').toLowerCase()==='cancelled'?'Cancelled':'Pending');const search=normalizeSearch(`#${o.order_number||''} ${o.guest_name||''} ${u?.full_name||''} ${u?.username||''}`);return `<tr data-bill-row data-search="${esc(search)}"><td>#${esc(o.order_number||'')}</td><td>${esc(o.guest_name||'—')}</td><td>${esc(u?.full_name||u?.username||'—')}</td><td>${indiaDateTime(o.created_at)}</td><td>${money(total)}</td><td><strong>${esc(billStatus)}</strong>${paid?`<br><small>${esc(paymentLabel(o.payments[0]?.payment_method))}</small>`:''}</td><td><div class="bill-actions"><button class="smallbtn" onclick="viewCustomerBill('${o.id}')">View Bill</button>${!paid&&billStatus!=='Cancelled'&&state.profile?.role==='owner'?`<button class="smallbtn" style="background:#e4f2eb;color:#0d4f4a" onclick="markCustomerBillPaid('${o.id}')">Mark Paid</button>`:''}<button class="smallbtn printbtn" onclick="printCustomerBill('${o.id}')">Print</button>${canDelete?`<button class="smallbtn" style="background:#fbe8e6;color:#9b2c24" onclick="deleteCustomerBill('${o.id}','${esc(o.order_number||'')}')">Delete</button>`:''}</div></td></tr>`}).join('')}</tbody><tr id="billSearchEmpty" style="display:none"><td colspan="7" class="empty">No matching bill found.</td></tr></table></div>${canDelete?'<p style="font-size:12px;color:#6d7975;margin-bottom:0">Customer bills start as <b>Pending</b>. Owner can use <b>Mark Paid</b> after receiving payment. Delete is available to the Owner only and removes the customer bill, payment, items and linked supplier bills.</p>':''}</div></div>`
+}
+async function deleteCustomerBill(id,number){
+  if(state.profile?.role!=='owner')return toast('Only the owner can delete bills.');
+  if(!confirm(`Delete Customer Bill #${number||''}? This will also delete its payment and linked supplier bills.`))return;
+  const result=await deleteOrderCascade(id);
+  // Verify the parent is actually gone; RLS errors otherwise can be misleading.
+  const check=await db.from('orders').select('id').eq('id',id).maybeSingle();
+  if(check.data)return toast('Bill could not be deleted. Check the Supabase delete policy.');
+  if(check.error && !String(check.error.message||'').toLowerCase().includes('no rows'))return toast('Bill deletion failed: '+check.error.message);
+  renderBills();toast(`Customer Bill #${number||''} deleted.`);
+}
+async function viewCustomerBill(id){const b=await getCustomerBill(id);if(!b.ok)return toast(b.message);modal(customerBillHtml(b.data,false))}
+async function printCustomerBill(id){const b=await getCustomerBill(id);if(!b.ok)return toast(b.message);printHtml(customerBillHtml(b.data,true),'Cashew Creek Villa - Customer Bill')}
+async function getCustomerBill(id){
+  const o=await db.from('orders').select('id,order_number,guest_name,created_by,created_at,completed_at,status,order_items(item_name_en,item_name_mr,quantity,selling_price,line_total)').eq('id',id).single();
+  if(o.error)return {ok:false,message:o.error.message};
+  let creator=null,payment=null;
+  if(o.data?.created_by){const pr=await db.from('profiles').select('full_name,username').eq('id',o.data.created_by).maybeSingle();if(!pr.error)creator=pr.data}
+  const pay=await db.from('payments').select('payment_method,amount,paid_at').eq('order_id',id).order('paid_at',{ascending:false}).limit(1).maybeSingle();
+  if(!pay.error)payment=pay.data;
+  return {ok:true,data:{...o.data,created_by_profile:creator,payment}}
+}
+function customerBillHtml(o,print=false){
+  const items=o.order_items||[];const total=items.reduce((a,x)=>a+Number(x.line_total??(Number(x.quantity)*Number(x.selling_price)),0),0);const paid=!!o.payment;const statusLabel=paid?'Paid':(String(o.status||'').toLowerCase()==='cancelled'?'Cancelled':'Pending');const pay=paid?paymentLabel(o.payment?.payment_method):'Pending';
+  return `<div class="modalhead"><h2>Customer Bill #${esc(o.order_number)}</h2>${print?'':`<button class="close" onclick="closeModal()">×</button>`}</div><div style="margin-bottom:12px"><b>Guest:</b> ${esc(o.guest_name||'—')}<br><b>Generated By:</b> ${esc(o.created_by_profile?.full_name||o.created_by_profile?.username||'—')}<br><b>Date:</b> ${indiaDateTime(o.created_at)}<br><b>Status:</b> <strong>${esc(statusLabel)}</strong><br><b>Payment:</b> <strong>${esc(pay)}</strong>${paid?`<br><b>Paid At:</b> ${esc(indiaDateTime(o.payment?.paid_at))}`:''}</div><table class="table"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>${items.map(x=>`<tr><td>${esc(x.item_name_en)}<br><span class="mr">${esc(x.item_name_mr||'')}</span></td><td>${x.quantity}</td><td>${money(x.selling_price)}</td><td>${money(x.line_total??(Number(x.quantity)*Number(x.selling_price)))}</td></tr>`).join('')}</table><div style="text-align:right;font-size:22px;font-weight:900;margin-top:15px">Total: ${money(total)}</div>${print?'':`<div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">${!paid&&statusLabel!=='Cancelled'&&state.profile?.role==='owner'?`<button class="btn gold" onclick="markCustomerBillPaid('${o.id}')">Mark as Paid</button>`:''}<button class="btn light" onclick="printCustomerBill('${o.id}')">Print Bill</button><button class="btn light" onclick="closeModal()">Close</button></div>`}`
+}
+
+async function markCustomerBillPaid(id){
+  if(state.profile?.role!=='owner')return toast('Only the owner can mark customer bills as paid.');
+  const b=await getCustomerBill(id);if(!b.ok)return toast(b.message);
+  if(b.data.payment)return toast('This customer bill is already marked as paid.');
+  const total=(b.data.order_items||[]).reduce((a,x)=>a+Number(x.line_total??(Number(x.quantity)*Number(x.selling_price)),0),0);
+  modal(`<div class="modalhead"><h2>Mark Customer Bill as Paid</h2><button class="close" onclick="closeModal()">×</button></div><div style="margin-bottom:12px"><b>Customer Bill:</b> #${esc(b.data.order_number||'—')}<br><b>Guest:</b> ${esc(b.data.guest_name||'—')}<br><b>Total:</b> ${money(total)}</div><div class="formgrid"><div class="field"><label>Payment Method</label><select id="customerPayMethod"><option value="cash">Cash</option><option value="upi">UPI</option></select></div><div class="field"><label>Payment Reference <span style="font-weight:400;color:#7b8580">(optional)</span></label><input id="customerPayReference" placeholder="UPI reference / note"></div></div><div class="admin-tools" style="margin-top:14px"><button id="markCustomerPaidBtn" class="btn gold" onclick="confirmCustomerBillPaid('${id}')">Mark as Paid</button><button class="btn light" onclick="closeModal()">Cancel</button></div>`);
+}
+async function confirmCustomerBillPaid(id){
+  if(state.profile?.role!=='owner')return toast('Only the owner can mark customer bills as paid.');
+  const btn=document.getElementById('markCustomerPaidBtn');if(btn){btn.disabled=true;btn.textContent='Saving…'}
+  const method=document.getElementById('customerPayMethod')?.value||'cash';
+  const reference=document.getElementById('customerPayReference')?.value.trim()||null;
+  const {data,error}=await db.rpc('mark_customer_bill_paid',{p_order_id:id,p_payment_method:method,p_payment_reference:reference});
+  if(error||data?.ok===false){if(btn){btn.disabled=false;btn.textContent='Mark as Paid'}return toast('Customer payment could not be saved: '+(error?.message||data?.message||'Unknown error'));}
+  closeModal();renderBills();toast('Customer bill marked as Paid.');
+}
+async function getSupplierBill(id){const b=await db.from('supplier_bills').select('id,order_id,total_amount,status,created_at,paid_at,paid_by,payment_method,payment_reference,suppliers(name),orders(order_number,guest_name),supplier_bill_items(item_name_en,item_name_mr,quantity,supplier_rate,line_total)').eq('id',id).single();if(b.error)return {ok:false,message:b.error.message};let paidBy=null;if(b.data?.paid_by){const pr=await db.from('profiles').select('full_name,username').eq('id',b.data.paid_by).maybeSingle();if(!pr.error)paidBy=pr.data}return {ok:true,data:{...b.data,paid_by_profile:paidBy}}}
+async function viewSupplierBill(id){const b=await getSupplierBill(id);if(!b.ok)return toast(b.message);modal(supplierBillHtml(b.data,false))}
+async function printSupplierBill(id){const b=await getSupplierBill(id);if(!b.ok)return toast(b.message);printHtml(supplierBillHtml(b.data,true),'Cashew Creek Villa - Supplier Bill')}
+async function markSupplierBillPaid(id){
+  if(state.profile?.role!=='owner')return toast('Only the owner can mark supplier bills as paid.');
+  const b=await getSupplierBill(id);if(!b.ok)return toast(b.message);
+  if(b.data.status==='paid')return toast('This supplier bill is already marked as paid.');
+  modal(`<div class="modalhead"><h2>Mark Supplier Bill as Paid</h2><button class="close" onclick="closeModal()">×</button></div><div style="margin-bottom:12px"><b>Supplier:</b> ${esc(b.data.suppliers?.name||'—')}<br><b>Customer Bill:</b> #${esc(b.data.orders?.order_number||'—')}<br><b>Payable:</b> ${money(b.data.total_amount)}</div><div class="formgrid"><div class="field"><label>Payment Method</label><select id="supplierPayMethod"><option value="cash">Cash</option><option value="upi">UPI</option></select></div><div class="field"><label>Payment Reference <span style="font-weight:400;color:#7b8580">(optional)</span></label><input id="supplierPayReference" placeholder="UPI reference / note"></div></div><div class="admin-tools" style="margin-top:14px"><button id="markSupplierPaidBtn" class="btn gold" onclick="confirmSupplierBillPaid('${id}')">Mark as Paid</button><button class="btn light" onclick="closeModal()">Cancel</button></div>`);
+}
+async function confirmSupplierBillPaid(id){
+  if(state.profile?.role!=='owner')return toast('Only the owner can mark supplier bills as paid.');
+  const btn=document.getElementById('markSupplierPaidBtn');if(btn){btn.disabled=true;btn.textContent='Saving…'}
+  const method=document.getElementById('supplierPayMethod')?.value||'cash';
+  const reference=document.getElementById('supplierPayReference')?.value.trim()||null;
+  const {data,error}=await db.rpc('mark_supplier_bill_paid',{p_supplier_bill_id:id,p_payment_method:method,p_payment_reference:reference});
+  if(error||data?.ok===false){if(btn){btn.disabled=false;btn.textContent='Mark as Paid'}return toast('Supplier payment could not be saved: '+(error?.message||data?.message||'Unknown error'));}
+  closeModal();renderSuppliers();toast('Supplier bill marked as Paid.');
+}
+async function deleteSupplierBill(id){
+  if(state.profile?.role!=='owner')return toast('Only the owner can delete supplier bills.');
+  const b=await getSupplierBill(id);if(!b.ok)return toast(b.message);
+  if(!confirm(`Delete this supplier bill for ${b.data.suppliers?.name||'Supplier'}?`))return;
+  const bi=await db.from('supplier_bill_items').delete().eq('supplier_bill_id',id);if(bi.error)return toast('Supplier bill items could not be deleted: '+bi.error.message);
+  const br=await db.from('supplier_bills').delete().eq('id',id);if(br.error)return toast('Supplier bill could not be deleted: '+br.error.message);
+  renderSuppliers();toast('Supplier bill deleted.');
+}
+function supplierBillHtml(b,print=false){const items=b.supplier_bill_items||[];const paidBy=b.paid_by_profile?.full_name||b.paid_by_profile?.username||'—';const statusLabel=String(b.status||'').toLowerCase()==='paid'?'Paid':String(b.status||'').toLowerCase()==='cancelled'?'Cancelled':'Pending';return `<div class="modalhead"><h2>Supplier Bill</h2>${print?'':`<button class="close" onclick="closeModal()">×</button>`}</div><div style="margin-bottom:12px"><b>Supplier:</b> ${esc(b.suppliers?.name||'—')}<br><b>Date:</b> ${indiaDateTime(b.created_at)}<br><b>Customer Bill:</b> #${esc(b.orders?.order_number||'—')}<br><b>Guest:</b> ${esc(b.orders?.guest_name||'—')}</div><table class="table"><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>${items.map(x=>`<tr><td>${esc(x.item_name_en)}<br><span class="mr">${esc(x.item_name_mr||'')}</span></td><td>${x.quantity}</td><td>${money(x.supplier_rate)}</td><td>${money(x.line_total??(Number(x.quantity)*Number(x.supplier_rate)))}</td></tr>`).join('')}</table><div style="text-align:right;font-size:22px;font-weight:900;margin-top:15px">Payable: ${money(b.total_amount)}</div><div style="margin-top:8px"><b>Status:</b> ${esc(statusLabel)}</div>${b.status==='paid'?`<div style="margin-top:8px"><b>Paid At:</b> ${esc(indiaDateTime(b.paid_at))}<br><b>Paid By:</b> ${esc(paidBy)}<br><b>Payment Method:</b> ${esc(paymentLabel(b.payment_method))}${b.payment_reference?`<br><b>Reference:</b> ${esc(b.payment_reference)}`:''}</div>`:''}${print?'':`<div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">${b.status!=='paid'&&b.status!=='cancelled'?`<button class="btn gold" onclick="markSupplierBillPaid('${b.id}')">Mark as Paid</button>`:''}<button class="btn light" onclick="printSupplierBill('${b.id}')">Print Supplier Bill</button><button class="btn light" onclick="closeModal()">Close</button></div>`}`}
+function printHtml(inner,title){const w=window.open('','_blank','width=850,height=700');if(!w)return toast('Please allow pop-ups to print the bill.');w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title><style>@font-face{font-family:NotoDeva;src:url('${location.origin}${location.pathname.replace(/[^/]*$/,'')}fonts/NotoSansDevanagari-Regular.ttf')}body{font-family:Arial,sans-serif;padding:28px;color:#20302d;max-width:800px;margin:auto}.mr{font-family:NotoDeva,serif;color:#5d6a66}.modalhead{border-bottom:2px solid #0d4f4a;padding-bottom:10px;margin-bottom:18px}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:9px;border-bottom:1px solid #ddd;text-align:left}.table th{background:#f3eee3}.printfooter{margin-top:30px;text-align:center;color:#777;font-size:12px}@media print{body{padding:0}.no-print{display:none}}</style></head><body><div style="text-align:center"><h1 style="margin:0;color:#0d4f4a">CASHEW CREEK VILLA</h1><div>ALIBAUG • Good Food • Great Views</div></div>${inner}<div class="printfooter">Cashew Creek Villa • Alibaug</div><script>window.onload=function(){window.print()}<\/script></body></html>`);w.document.close()}
+async function renderDashboard(){
+  const {data,error}=await db.from('orders').select('id,guest_name,created_at,status,order_items(quantity,selling_price),payments(amount)');
+  if(error){content.innerHTML=`<div class="empty">${esc(error.message)}</div>`;return}
+  const rows=data||[];const today=indiaDayKey(new Date());
+  const withTotal=rows.map(x=>({...x,total:(x.order_items||[]).reduce((a,i)=>a+Number(i.quantity||0)*Number(i.selling_price||0),0)}));
+  const todayRows=withTotal.filter(x=>indiaDayKey(x.created_at)===today);const sales=todayRows.filter(x=>Array.isArray(x.payments)&&x.payments.length>0).reduce((a,x)=>a+x.total,0);
+  content.innerHTML=`<div class="kpis"><div class="kpi">Today Sales<b>${money(sales)}</b></div><div class="kpi">Today's Bills<b>${todayRows.length}</b></div><div class="kpi">All Bills<b>${withTotal.length}</b></div><div class="kpi">Role<b style="font-size:18px">${esc(state.profile.role)}</b></div></div><div class="card" style="margin-top:15px"><div class="cardbody"><h2>Cloud Status</h2><p>Logged in as <b>${esc(state.profile.full_name)}</b>. Data is stored in your Supabase project.</p></div></div>`
+}
+async function renderSuppliers(){const {data,error}=await db.from('supplier_bills').select('id,order_id,supplier_id,total_amount,status,created_at,paid_at,payment_method,payment_reference,suppliers(name),orders(order_number,guest_name)').order('created_at',{ascending:false}).limit(500);const bills=data||[];const pending=bills.filter(x=>x.status==='pending');const paid=bills.filter(x=>x.status==='paid');const pendingTotal=pending.reduce((a,x)=>a+Number(x.total_amount||0),0);const paidTotal=paid.reduce((a,x)=>a+Number(x.total_amount||0),0);content.innerHTML=`<div class="card"><div class="cardbody"><h2>Supplier Payables</h2>${error?`<p class="error">${esc(error.message)}</p>`:`<div class="kpis" style="margin:14px 0"><div class="kpi">Pending<b>${money(pendingTotal)}</b></div><div class="kpi">Paid<b>${money(paidTotal)}</b></div><div class="kpi">Pending Bills<b>${pending.length}</b></div><div class="kpi">Paid Bills<b>${paid.length}</b></div></div><div style="overflow:auto"><table class="table"><tr><th>Supplier</th><th>Customer Bill</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr>${bills.map(x=>{const st=x.status==='paid'?'Paid':x.status==='cancelled'?'Cancelled':'Pending';return `<tr><td>${esc(x.suppliers?.name||'—')}</td><td>#${esc(x.orders?.order_number||'—')}<br><small>${esc(x.orders?.guest_name||'')}</small></td><td>${money(x.total_amount)}</td><td><strong>${esc(st)}</strong>${x.status==='paid'?`<br><small>${esc(paymentLabel(x.payment_method))}${x.paid_at?' • '+esc(indiaDateTime(x.paid_at)):''}</small>`:''}</td><td>${indiaDateTime(x.created_at)}</td><td><div class="bill-actions"><button class="smallbtn" onclick="viewSupplierBill('${x.id}')">View Bill</button>${x.status!=='paid'&&x.status!=='cancelled'&&state.profile?.role==='owner'?`<button class="smallbtn" style="background:#e4f2eb;color:#0d4f4a" onclick="markSupplierBillPaid('${x.id}')">Mark Paid</button>`:''}<button class="smallbtn printbtn" onclick="printSupplierBill('${x.id}')">Print</button>${state.profile?.role==='owner'?`<button class="smallbtn" style="background:#fbe8e6;color:#9b2c24" onclick="deleteSupplierBill('${x.id}')">Delete</button>`:''}</div></td></tr>`}).join('')}</table></div>${state.profile?.role==='owner'?'<p style="font-size:12px;color:#6d7975;margin-bottom:0">Supplier bills start as <b>Pending</b>. Use <b>Mark Paid</b> after you actually pay the supplier. Payment method is Cash or UPI; reference is optional.</p>':''}`}</div></div>`}
+
+/* ---------- Owner menu management (UI only; no Excel import/export) ---------- */
+function normMenuName(v){return String(v??'').trim().replace(/\s+/g,' ').toLowerCase()}
+function menuRowsForOwner(){return state.allMenu||[]}
+async function loadOwnerMenu(){
+  const [m,c,s]=await Promise.all([
+    db.from('menu_items').select('id,category_id,name_en,name_mr,selling_price,available,sort_order,created_at,menu_categories(id,name_en)').order('sort_order'),
+    db.from('menu_categories').select('id,name_en,name_mr,sort_order,active').order('sort_order'),
+    db.from('suppliers').select('id,name,phone,notes,active').order('name')
+  ]);
+  if(m.error)throw m.error;if(c.error)throw c.error;if(s.error)throw s.error;
+  const costs=await db.from('supplier_item_costs').select('id,menu_item_id,supplier_id,supplier_rate,active,suppliers(id,name)').order('supplier_rate');
+  if(costs.error)throw costs.error;
+  const costMap={};
+  (costs.data||[]).forEach(x=>{if(!costMap[x.menu_item_id])costMap[x.menu_item_id]=[];costMap[x.menu_item_id].push(x)});
+  state.allMenu=(m.data||[]).map(x=>({...x,category_name:x.menu_categories?.name_en||'Other',costs:costMap[x.id]||[]}));
+  state.categories=c.data||[];state.suppliers=s.data||[];
+}
+function ownerSupplierOptions(costs,currentId){
+  const activeCost=(costs||[]).find(x=>x.active) || (costs||[])[0];
+  const sid=currentId||activeCost?.supplier_id||'';
+  return `<option value="">No supplier</option>${(state.suppliers||[]).map(s=>`<option value="${esc(s.id)}" ${String(s.id)===String(sid)?'selected':''}>${esc(s.name)}</option>`).join('')}`;
+}
+function renderOwnerMenuRows(){
+  const items=menuRowsForOwner();
+  return items.map((i,idx)=>{
+    const activeCost=(i.costs||[]).find(x=>x.active)||(i.costs||[])[0];
+    const search=normalizeSearch(`${i.name_en||''} ${i.name_mr||''} ${i.category_name||''} ${(i.costs||[]).map(c=>c.suppliers?.name||'').join(' ')}`);
+    return `<tr data-owner-menu-row data-search="${esc(search)}">
+      <td>${idx+1}</td>
+      <td><input id="menuname-${i.id}" value="${esc(i.name_en||'')}" /></td>
+      <td><input id="menumr-${i.id}" class="mr" value="${esc(i.name_mr||'')}" placeholder="मराठी नाव" /></td>
+      <td><select id="menucat-${i.id}">${(state.categories||[]).map(c=>`<option value="${esc(c.id)}" ${c.id===i.category_id?'selected':''}>${esc(c.name_en)}</option>`).join('')}</select></td>
+      <td><input id="menuprice-${i.id}" type="number" min="0" step="0.01" value="${Number(i.selling_price||0)}" /></td>
+      <td><select id="menusupplier-${i.id}" onchange="supplierChanged('${i.id}')">${ownerSupplierOptions(i.costs,activeCost?.supplier_id)}</select></td>
+      <td><input id="menucost-${i.id}" type="number" min="0" step="0.01" value="${activeCost?Number(activeCost.supplier_rate||0):''}" /></td>
+      <td><label style="display:flex;align-items:center;gap:7px;white-space:nowrap"><input id="menuavail-${i.id}" type="checkbox" ${i.available!==false?'checked':''}/> Available</label></td>
+      <td><button class="smallbtn" onclick="saveMenuItem('${i.id}')">Save</button></td>
+    </tr>`;
+  }).join('');
+}
+function supplierChanged(id){
+  const select=document.getElementById(`menusupplier-${id}`),cost=document.getElementById(`menucost-${id}`);if(!select||!cost)return;
+  const existing=(state.allMenu.find(x=>x.id===id)?.costs||[]).find(x=>String(x.supplier_id)===String(select.value));
+  cost.value=existing?Number(existing.supplier_rate||0):'';
+}
+async function saveMenuItem(id){
+  if(state.profile?.role!=='owner')return toast('Only the owner can modify the menu.');
+  const item=state.allMenu.find(x=>x.id===id);if(!item)return;
+  const name=document.getElementById(`menuname-${id}`)?.value.trim().replace(/\s+/g,' ');
+  const nameMr=document.getElementById(`menumr-${id}`)?.value.trim();
+  const categoryId=document.getElementById(`menucat-${id}`)?.value;
+  const price=Number(document.getElementById(`menuprice-${id}`)?.value);
+  const available=document.getElementById(`menuavail-${id}`)?.checked;
+  const supplierId=document.getElementById(`menusupplier-${id}`)?.value||'';
+  const supplierRateRaw=document.getElementById(`menucost-${id}`)?.value.trim()||'';
+  if(!name)return toast('Item name cannot be empty.');
+  if(!nameMr)return toast('Marathi item name cannot be empty.');
+  if(!Number.isFinite(price)||price<0)return toast('Selling price must be a valid number.');
+  const duplicate=state.allMenu.find(x=>x.id!==id&&normMenuName(x.name_en)===normMenuName(name));
+  if(duplicate)return toast(`Duplicate item: “${duplicate.name_en}”. Item names are case-insensitive and space-normalized.`);
+  const up=await db.from('menu_items').update({name_en:name,name_mr:nameMr,category_id:categoryId,selling_price:price,available,sort_order:item.sort_order}).eq('id',id);
+  if(up.error)return toast('Menu item could not be updated: '+up.error.message);
+  const allCosts=await db.from('supplier_item_costs').select('id,supplier_id').eq('menu_item_id',id);
+  if(allCosts.error)return toast('Supplier data could not be read: '+allCosts.error.message);
+  if(supplierId){
+    const rate=Number(supplierRateRaw);
+    if(!Number.isFinite(rate)||rate<0)return toast('Supplier rate must be a valid number.');
+    const de=await db.from('supplier_item_costs').update({active:false}).eq('menu_item_id',id);
+    if(de.error)return toast('Could not update supplier assignment: '+de.error.message);
+    const existing=(allCosts.data||[]).find(x=>String(x.supplier_id)===String(supplierId));
+    let sr;
+    if(existing)sr=await db.from('supplier_item_costs').update({supplier_rate:rate,active:true}).eq('id',existing.id);
+    else sr=await db.from('supplier_item_costs').insert({menu_item_id:id,supplier_id:supplierId,supplier_rate:rate,active:true});
+    if(sr.error)return toast('Supplier cost could not be saved: '+sr.error.message);
+  }else{
+    const de=await db.from('supplier_item_costs').update({active:false}).eq('menu_item_id',id);if(de.error)return toast('Could not clear supplier assignment: '+de.error.message);
+  }
+  await loadOwnerMenu();renderAdmin();toast(`${name} updated.`);
+}
+function openAddMenuItem(){
+  if(state.profile?.role!=='owner')return toast('Only the owner can add menu items.');
+  modal(`<div class="modalhead"><h2>Add Menu Item</h2><button class="close" onclick="closeModal()">×</button></div><div class="formgrid">
+    <div class="field"><label>English Item Name</label><input id="addName" placeholder="e.g. Masala Dosa"></div>
+    <div class="field"><label>Marathi Item Name</label><input id="addMr" class="mr" placeholder="मराठी नाव"></div>
+    <div class="field"><label>Category</label><select id="addCategory">${(state.categories||[]).map(c=>`<option value="${esc(c.id)}">${esc(c.name_en)}</option>`).join('')}</select></div>
+    <div class="field"><label>Customer Price</label><input id="addPrice" type="number" min="0" step="0.01"></div>
+    <div class="field"><label>Supplier</label><select id="addSupplier">${ownerSupplierOptions([], '')}</select></div>
+    <div class="field"><label>Supplier Cost</label><input id="addCost" type="number" min="0" step="0.01"></div>
+    <div class="field full"><label><input id="addAvailable" type="checkbox" checked> Available for ordering</label></div>
+  </div><div class="admin-tools"><button class="btn gold" onclick="addMenuItem()">Add Item</button><button class="btn light" onclick="closeModal()">Cancel</button></div>`);
+}
+async function addMenuItem(){
+  const name=document.getElementById('addName')?.value.trim().replace(/\s+/g,' '),mr=document.getElementById('addMr')?.value.trim(),categoryId=document.getElementById('addCategory')?.value,price=Number(document.getElementById('addPrice')?.value),supplierId=document.getElementById('addSupplier')?.value||'',costRaw=document.getElementById('addCost')?.value.trim()||'',available=document.getElementById('addAvailable')?.checked;
+  if(!name||!mr||!categoryId)return toast('English name, Marathi name and category are required.');
+  if(!Number.isFinite(price)||price<0)return toast('Selling price must be a valid number.');
+  if(state.allMenu.some(x=>normMenuName(x.name_en)===normMenuName(name)))return toast('That item already exists. Case and spaces are ignored.');
+  const maxSort=Math.max(-1,...state.allMenu.filter(x=>x.category_id===categoryId).map(x=>Number(x.sort_order||0)));
+  const ins=await db.from('menu_items').insert({category_id:categoryId,name_en:name,name_mr:mr,selling_price:price,available,sort_order:maxSort+1}).select('id').single();
+  if(ins.error)return toast('Menu item could not be added: '+ins.error.message);
+  if(supplierId){const rate=Number(costRaw);if(!Number.isFinite(rate)||rate<0){await db.from('menu_items').delete().eq('id',ins.data.id);return toast('Supplier rate must be a valid number.');}const sr=await db.from('supplier_item_costs').insert({menu_item_id:ins.data.id,supplier_id:supplierId,supplier_rate:rate,active:true});if(sr.error){await db.from('menu_items').delete().eq('id',ins.data.id);return toast('Supplier cost could not be saved: '+sr.error.message)}}
+  await loadOwnerMenu();closeModal();renderAdmin();toast(`${name} added to the menu.`);
+}
+async function cleanDuplicateMenuItems(){
+  if(state.profile?.role!=='owner')return toast('Only the owner can clean duplicates.');
+  const groups={};for(const i of state.allMenu){const k=normMenuName(i.name_en);(groups[k]??=[]).push(i)}
+  const dupes=Object.values(groups).filter(g=>g.length>1);if(!dupes.length)return toast('No duplicate menu names found.');
+  if(!confirm(`Found ${dupes.length} duplicate name group(s). Merge them now? Historical order items will be moved to the first item in each group.`))return;
+  try{
+    for(const group of dupes){
+      const keep=group.slice().sort((a,b)=>String(a.created_at||'').localeCompare(String(b.created_at||'')))[0];
+      for(const dup of group.filter(x=>x.id!==keep.id)){
+        const oi=await db.from('order_items').update({menu_item_id:keep.id}).eq('menu_item_id',dup.id);if(oi.error)throw oi.error;
+        const costs=await db.from('supplier_item_costs').select('id,supplier_id,supplier_rate,active').eq('menu_item_id',dup.id);if(costs.error)throw costs.error;
+        for(const c of costs.data||[]){const ex=await db.from('supplier_item_costs').select('id').eq('menu_item_id',keep.id).eq('supplier_id',c.supplier_id).maybeSingle();if(ex.data){const d=await db.from('supplier_item_costs').delete().eq('id',c.id);if(d.error)throw d.error}else{const u=await db.from('supplier_item_costs').update({menu_item_id:keep.id}).eq('id',c.id);if(u.error)throw u.error}}
+        const d=await db.from('menu_items').delete().eq('id',dup.id);if(d.error)throw d.error;
+      }
+      const up=await db.from('menu_items').update({name_en:String(keep.name_en).trim().replace(/\s+/g,' ')}).eq('id',keep.id);if(up.error)throw up.error;
+    }
+    await loadOwnerMenu();renderAdmin();toast(`Merged ${dupes.length} duplicate name group(s).`);
+  }catch(e){toast('Duplicate cleanup failed: '+(e.message||e))}
+}
+async function renderAdmin(){
+  if(state.profile?.role!=='owner')return;
+  if(state.ownerSection==='user'){
+    content.innerHTML=`<div class="subnav"><button class="${state.ownerSection==='menu'?'active':''}" onclick="setOwnerSection('menu')">🍽️ Menu</button><button class="${state.ownerSection==='user'?'active':''}" onclick="setOwnerSection('user')">👤 User</button></div><div class="card"><div class="cardbody"><h2 style="margin-top:0">User Management</h2><p class="admin-note">Create a login using a <b>User Name</b>. The user never needs an email address. User creation is performed server-side and the new account is immediately confirmed.</p><div class="formgrid"><div class="field"><label>User Name</label><input id="newUsername" placeholder="e.g. ramesh"></div><div class="field"><label>Full Name</label><input id="newFullName" placeholder="e.g. Ramesh Patil"></div><div class="field"><label>Password</label><input id="newPassword" type="password" placeholder="Minimum 6 characters"></div><div class="field"><label>Role</label><select id="newRole"><option value="caretaker">Caretaker</option><option value="guest">Guest</option><option value="owner">Owner</option></select></div></div><button id="createUserBtn" class="btn gold" style="margin-top:14px" onclick="createVillaUser()">Create User</button><p class="admin-note" style="margin-bottom:0">After deploying V15, deploy the bundled Supabase Edge Function <b>create-villa-user</b> once. The service-role key stays server-side and is never included in this website.</p></div></div>`;
+    return;
+  }
+  content.innerHTML='<div class="empty">Loading menu management…</div>';
+  try{await loadOwnerMenu();}catch(e){content.innerHTML=`<div class="empty">${esc(e.message||e)}</div>`;return}
+  const counts={total:state.allMenu.length,available:state.allMenu.filter(x=>x.available!==false).length,hidden:state.allMenu.filter(x=>x.available===false).length};
+  content.innerHTML=`<div class="subnav"><button class="active" onclick="setOwnerSection('menu')">🍽️ Menu</button><button onclick="setOwnerSection('user')">👤 User</button></div>
+  <div class="card"><div class="cardbody"><div class="row" style="justify-content:space-between;align-items:flex-start;gap:12px"><div><h2 style="margin-top:0">Menu Management</h2><p class="admin-note">Manage every menu item directly on screen. Changes here affect the ordering screen immediately after refresh. Item names are matched case-insensitively with normalized spaces, so <b>Tandul Bhakari</b>, <b>tandul bhakari</b> and <b>TANDUL BHAKARI</b> are the same item.</p></div><div class="admin-tools" style="margin-top:0"><button class="btn gold" onclick="openAddMenuItem()">＋ Add Item</button><button class="btn light" onclick="cleanDuplicateMenuItems()">Merge Duplicate Names</button></div></div><div class="kpis" style="margin-top:14px"><div class="kpi">All Items<b>${counts.total}</b></div><div class="kpi">Available<b>${counts.available}</b></div><div class="kpi">Hidden<b>${counts.hidden}</b></div><div class="kpi">Suppliers<b>${state.suppliers.length}</b></div></div></div></div>
+  <div class="card" style="margin-top:14px"><div class="cardbody"><div class="searchbar"><span class="searchicon">🔎</span><input id="ownerMenuSearch" type="search" value="${esc(state.ownerMenuSearch)}" placeholder="Search menu item, Marathi name, category or supplier…" oninput="filterOwnerMenu(this.value)" autocomplete="off"><button type="button" class="searchclear" onclick="clearOwnerMenuSearch()">Clear</button></div><div style="overflow:auto;max-height:70vh"><table class="table"><tr><th>#</th><th>English Name</th><th>Marathi</th><th>Category</th><th>Customer Price</th><th>Supplier</th><th>Supplier Cost</th><th>Availability</th><th>Action</th></tr>${renderOwnerMenuRows()}<tr id="ownerMenuSearchEmpty" style="display:none"><td colspan="9" class="empty">No matching menu item found.</td></tr></table></div><p class="admin-note">Customer Price is the amount charged to the guest. Supplier Cost is the owner-only purchase cost used for supplier bills and is never shown on the customer ordering screen.</p></div></div>`;
+  if(state.ownerMenuSearch)filterOwnerMenu(state.ownerMenuSearch);
+}
+async function createVillaUser(){
+  if(state.profile?.role!=='owner')return toast('Only the owner can create users.');
+  const username=document.getElementById('newUsername')?.value.trim().toLowerCase();
+  const fullName=document.getElementById('newFullName')?.value.trim();
+  const password=document.getElementById('newPassword')?.value||'';
+  const role=document.getElementById('newRole')?.value||'caretaker';
+  const btn=document.getElementById('createUserBtn');
+  if(!/^[a-z0-9._-]{3,30}$/.test(username))return toast('User name must be 3-30 characters: letters, numbers, dot, underscore or hyphen.');
+  if(password.length<6)return toast('Password must be at least 6 characters.');
+  if(!['caretaker','guest','owner'].includes(role))return toast('Invalid role.');
+  if(btn){btn.disabled=true;btn.textContent='Creating User…'}
+  try{
+    const token=state.session?.access_token;
+    if(!token)throw new Error('Your session has expired. Please log in again.');
+    const response=await fetch(`${SUPABASE_URL}/functions/v1/create-villa-user`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`,'apikey':SUPABASE_KEY},body:JSON.stringify({username,fullName:fullName||username,password,role})});
+    let body=null;try{body=await response.json()}catch(_){body={}};
+    if(!response.ok)throw new Error(body?.error||`User creation failed (${response.status}).`);
+    toast(`User '${username}' created as ${role}.`);
+    ['newUsername','newFullName','newPassword'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
+  }catch(e){toast(e.message||'User creation failed.');}
+  finally{if(btn){btn.disabled=false;btn.textContent='Create User'}}
+}
+async function repairMasterMenu(){
+  const btn=document.querySelector('#content .btn.gold'); if(btn){btn.disabled=true;btn.textContent='Repairing…';}
+  try{
+    const catMap={};
+    for(let idx=0;idx<seed.length;idx++){
+      const c=seed[idx][0];
+      if(catMap[c])continue;
+      let r=await db.from('menu_categories').select('id').eq('name_en',c).limit(1).maybeSingle();
+      if(r.error)throw r.error;
+      if(!r.data){r=await db.from('menu_categories').insert({name_en:c,name_mr:c,sort_order:Object.keys(catMap).length,active:true}).select('id').single();if(r.error)throw r.error;}
+      catMap[c]=r.data.id;
+    }
+    let sup=state.suppliers.find(x=>x.name==='Main Supplier');
+    if(!sup){const sr=await db.from('suppliers').insert({name:'Main Supplier',active:true}).select('id,name').single();if(sr.error)throw sr.error;sup=sr.data;}
+    let changed=0;
+    for(let idx=0;idx<seed.length;idx++){
+      const [cat,name,mr,customerPrice,supplierCost]=seed[idx];
+      let ex=await db.from('menu_items').select('id').eq('name_en',name).limit(1).maybeSingle();
+      if(ex.error)throw ex.error;
+      let itemId=ex.data?.id;
+      if(!itemId){const ins=await db.from('menu_items').insert({category_id:catMap[cat],name_en:name,name_mr:mr,selling_price:customerPrice,available:true,sort_order:idx}).select('id').single();if(ins.error)throw ins.error;itemId=ins.data.id;changed++;}
+      else{const up=await db.from('menu_items').update({category_id:catMap[cat],name_mr:mr,selling_price:customerPrice,available:true,sort_order:idx}).eq('id',itemId);if(up.error)throw up.error;changed++;}
+      // Repair updates the customer-facing price only. It never invents or overwrites supplier costs.
+      // Supplier Cost must be maintained explicitly by the Owner in Menu Management.
+      void supplierCost;
+    }
+    await loadData();state.categoryId=null;state.orderSearch='';state.tab='order';app();toast(`Master menu repaired: ${changed} items checked.`);
+  }catch(e){toast('Menu repair failed: '+(e.message||e));if(btn){btn.disabled=false;btn.textContent='Repair / Load Master Menu';}}
+}
+function modal(html){const m=document.createElement('div');m.className='modal';m.id='modal';m.innerHTML=`<div class="modalbox">${html}</div>`;document.body.appendChild(m)}function closeModal(){document.getElementById('modal')?.remove()}
+async function logout(){
+  const {error}=await db.auth.signOut();
+  if(error){toast('Logout failed: '+error.message);return;}
+  state.session=null;state.profile=null;state.menu=[];state.cart={};state.suppliers=[];state.categories=[];state.categoryId=null;state.tab='order';
+  login('You have been logged out.');
+}
+async function boot(){
+  root.innerHTML='<div class="loading"><div class="loadingbox"><div class="spinner"></div><b>Checking your secure session…</b></div></div>';
+  const {data,error}=await db.auth.getSession();
+  if(error){login(error.message);return;}
+  if(!data.session){login();return;}
+  state.session=data.session;
+  try{state.profile=await getProfile(data.session.user);await loadData();app();}
+  catch(e){console.error(e);await db.auth.signOut();login('Could not load your account: '+(e.message||e));}
+}
+db.auth.onAuthStateChange((event)=>{
+  if(event==='SIGNED_OUT'){state.session=null;state.profile=null;state.menu=[];state.cart={};state.suppliers=[];state.tables=[];state.categories=[];if(!document.getElementById('email'))setTimeout(()=>login(),0);}
+});
+boot();
+</script></body></html>

@@ -1,0 +1,9 @@
+Cashew Creek Villa V15.7
+
+- Renamed the application role label/value from Waiter to Caretaker.
+- Owner -> User now creates Caretaker, Guest, or Owner accounts.
+- Supabase Edge Function create-villa-user now validates caretaker/guest/owner.
+- Added v15_7_role_caretaker_migration.sql.
+- Migration converts existing profiles.role = waiter to caretaker.
+- Migration replaces legacy waiter role CHECK constraints while preserving manager/accounts for backward compatibility.
+- PWA service-worker cache bumped to V15.7.

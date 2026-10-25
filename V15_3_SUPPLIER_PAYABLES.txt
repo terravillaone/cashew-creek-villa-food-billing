@@ -1,0 +1,17 @@
+V15.5 SUPPLIER PAYABLE WORKFLOW
+
+Supplier bills now have a real payable workflow:
+- New supplier bill starts as Pending.
+- Owner can use Mark Paid.
+- Payment method is Cash or UPI.
+- Optional payment reference can be stored.
+- Paid timestamp and the owner who marked it paid are stored.
+- Supplier screen shows Pending and Paid totals/counts.
+- Supplier bill detail and print show payment details when paid.
+- Re-running supplier-bill creation no longer resets an already-paid bill back to Pending.
+
+Run v15_3_supplier_payments_migration.sql after the earlier V15 supplier/RPC migrations.
+
+V15.5 hotfix:
+- Fixed supplier bill creation error caused by inserting into generated line_total.
+- Supplier bill item line_total is now calculated by the database.

@@ -1,0 +1,12 @@
+{
+  "name":"Cashew Creek Villa — Food Billing",
+  "short_name":"Cashew Creek",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#fbf5e8",
+  "theme_color":"#0d4f4a",
+  "icons":[
+    {"src":"assets/cashew-creek-logo-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"assets/cashew-creek-logo-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}
